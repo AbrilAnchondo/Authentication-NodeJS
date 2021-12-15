@@ -1,8 +1,14 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
-  // console.log("request", req);
-  const token = req.header("x-auth-token");
+  // getting token from headers
+
+  // req.header("x-auth-token"); *deprecated!
+
+  // using the common convention to add 'Bearer' in front of token when sending in the headers
+  // extracting only the token part
+  //console.log(req.header("Authorization"));
+  const token = req.header("Authorization").split(" ")[1];
 
   // check token
   if (!token) {
@@ -10,7 +16,7 @@ module.exports = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+    console.log("decoded", decoded);
     // payload is put into decoded, taking user out and assing it to req obj
     req.user = decoded.user;
     next();
