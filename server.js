@@ -1,6 +1,8 @@
 require("dotenv").config();
 const http = require("http");
 
+const PORT = 3000;
+
 const express = require("express");
 const bodyParser = require("body-parser");
 
@@ -25,4 +27,4 @@ app.use(express.json({ extended: false }));
 app.use(authRoutes);
 app.use(homeRoute);
 
-app.listen(3000);
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
