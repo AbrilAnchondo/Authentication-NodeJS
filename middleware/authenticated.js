@@ -8,7 +8,18 @@ module.exports = (req, res, next) => {
   // using the common convention to add 'Bearer' in front of token when sending in the headers
   // extracting only the token part
   //console.log(req.header("Authorization"));
-  const token = req.header("Authorization").split(" ")[1];
+
+  const authHeader = req.get("Authorization");
+
+  if (!authHeader) {
+    const error = new Error("NOT AUTHENTICATED!");
+    error.statusCode = 401;
+    throw error;
+  }
+
+  // const token = req.header("Authorization").split(" ")[1];
+  console.log("authHeader", authHeader);
+  const token = authHeader.split(" ")[1];
 
   // check token
   if (!token) {
