@@ -1,4 +1,5 @@
 const expect = require("chai").expect;
+const jwt = require("jsonwebtoken");
 
 const authMiddleware = require("../middleware/authenticated");
 
@@ -29,6 +30,15 @@ describe("Auth middleware", function () {
     const req = {
       get: function (header) {
         return "abc";
+      },
+    };
+    expect(authMiddleware.bind(this, req, {}, () => {})).to.throw();
+  });
+
+  it("should throw an error if the token cannot be verified", function () {
+    const req = {
+      get: function (header) {
+        return "Bearer abc";
       },
     };
     expect(authMiddleware.bind(this, req, {}, () => {})).to.throw();

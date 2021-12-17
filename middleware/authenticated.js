@@ -18,7 +18,6 @@ module.exports = (req, res, next) => {
   }
 
   // const token = req.header("Authorization").split(" ")[1];
-  console.log("authHeader", authHeader);
   const token = authHeader.split(" ")[1];
 
   // check token
@@ -27,7 +26,7 @@ module.exports = (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    // console.log("decoded", decoded);
+    console.log("decoded", decoded);
     // payload is put into decoded, taking user out and assing it to req obj
     req.user = decoded.user;
     next();
